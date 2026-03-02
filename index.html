@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PMO Guide: Requerimientos Avila Tek</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Urbanist:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        body { font-family: 'Urbanist', sans-serif; background-color: #050505; color: #daffde; scroll-behavior: smooth; }
+        .accent-text { color: #deff9a; }
+        .bg-accent { background-color: #deff9a; }
+        .border-accent { border-color: #deff9a; }
+        
+        .slide-section { display: none; min-height: 100vh; padding: 100px 40px; animation: fadeIn 0.6s ease-out; }
+        .slide-section.active { display: flex; flex-direction: column; justify-content: center; }
+        
+        @keyframes fadeIn { from { opacity: 0; transform: scale(0.98); } to { opacity: 1; transform: scale(1); } }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(222, 255, 154, 0.1);
+            border-radius: 24px;
+        }
+
+        .example-box {
+            border-left: 4px solid #deff9a;
+            background: rgba(222, 255, 154, 0.05);
+            padding: 20px;
+            border-radius: 0 16px 16px 0;
+        }
+
+        .nav-dot { width: 10px; height: 10px; border-radius: 50%; background: rgba(222, 255, 154, 0.2); cursor: pointer; transition: 0.3s; }
+        .nav-dot.active { background: #deff9a; transform: scale(1.4); box-shadow: 0 0 15px #deff9a; }
+
+        .tree-node { border: 2px solid #deff9a; padding: 10px; border-radius: 8px; position: relative; text-align: center; }
+        .tree-line { width: 2px; background: #deff9a; height: 20px; margin: 0 auto; }
+    </style>
+</head>
+<body>
+
+    <!-- Nav Fijo -->
+    <nav class="fixed top-0 left-0 w-full z-50 bg-black/80 backdrop-blur-lg border-b border-white/10 px-8 py-4 flex justify-between items-center">
+        <div class="flex items-center gap-2">
+            <div class="w-10 h-10 bg-accent rounded flex items-center justify-center text-black font-bold text-xl">A</div>
+            <span class="font-bold tracking-tighter text-white text-xl">PMO <span class="accent-text">HANDBOOK</span></span>
+        </div>
+        <div id="nav-dots" class="flex gap-3"></div>
+        <div class="text-[10px] uppercase tracking-[0.3em] opacity-40" id="slide-num">LÁMINA 1 / 12</div>
+    </nav>
+
+    <main class="max-w-7xl mx-auto">
+
+        <!-- LÁMINA 1: PORTADA -->
+        <section class="slide-section active" data-title="Portada">
+            <div class="text-center space-y-6">
+                <h1 class="text-7xl md:text-9xl font-bold tracking-tighter italic">MASTER <span class="accent-text underline">GUIDE</span></h1>
+                <h2 class="text-2xl md:text-3xl font-light text-white/60">Levantamiento, Refinamiento y Validación de Requerimientos</h2>
+                <div class="flex justify-center gap-12 pt-10 opacity-40 text-sm font-bold uppercase tracking-widest">
+                    <span>Negocio</span>
+                    <span class="text-accent">•</span>
+                    <span>Diseño</span>
+                    <span class="text-accent">•</span>
+                    <span>Tecnología</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- LÁMINA 2: ROLLING WAVE + EJEMPLO -->
+        <section class="slide-section" data-title="Rolling Wave">
+            <h2 class="text-5xl font-bold mb-12 border-l-8 border-accent pl-6">01. Metodología: Rolling Wave</h2>
+            <div class="grid lg:grid-cols-2 gap-12 items-start">
+                <div class="space-y-6">
+                    <p class="text-lg opacity-80">Dividimos el proyecto en "Olas" de 4 semanas. Planificamos en detalle lo que construiremos mañana y en bosquejo lo que haremos en 3 meses.</p>
+                    <div class="example-box">
+                        <h4 class="font-bold text-accent mb-2">Ejemplo: Caso HealthSync App</h4>
+                        <ul class="text-sm space-y-3">
+                            <li><span class="text-accent font-bold">Ola Actual (P1):</span> Historias INVEST para "Registro Biométrico". Factibilidad técnica confirmada (KK).</li>
+                            <li><span class="text-white/40 font-bold">Ola Futura (H2):</span> Épica de "Integración con Seguros". Solo estimación de alto nivel (KU).</li>
+                            <li><span class="text-white/20 font-bold">Visión Distante (H3):</span> "Marketplace de Salud". Apenas un hito en el roadmap (UU).</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="glass-card p-10 flex flex-col items-center justify-center border-accent/20">
+                    <div class="text-center">
+                        <i class="fa-solid fa-water text-8xl text-accent/20 mb-6"></i>
+                        <p class="text-2xl font-light italic">"El detalle aumenta a medida que el tiempo se acorta."</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- LÁMINA 3: TECNICA FORWARD-BACKWARD -->
+        <section class="slide-section" data-title="Forward-Backward">
+            <h2 class="text-5xl font-bold mb-12 border-l-8 border-accent pl-6">02. Técnica: Forward-Backward Pass</h2>
+            <div class="grid lg:grid-cols-2 gap-12">
+                <div class="space-y-6">
+                    <h3 class="text-2xl font-bold italic">¿Cómo aplicarla?</h3>
+                    <p class="text-sm opacity-70">Es el antídoto para los flujos incompletos. Se usa durante el análisis de funcionalidades críticas.</p>
+                    <div class="flex gap-4">
+                        <div class="flex-1 p-4 bg-blue-500/10 rounded-xl border border-blue-400/20 text-xs">
+                            <span class="font-bold text-blue-400 block mb-2">FORWARD (El Caminante)</span>
+                            Mapeamos el flujo ideal. El usuario logra su meta sin errores.
+                        </div>
+                        <div class="flex-1 p-4 bg-orange-500/10 rounded-xl border border-orange-400/20 text-xs">
+                            <span class="font-bold text-orange-400 block mb-2">BACKWARD (El Auditor)</span>
+                            Revisamos hacia atrás: ¿Qué precondiciones faltan? ¿Qué pasa si falla X?
+                        </div>
+                    </div>
+                </div>
+                <div class="example-box">
+                    <h4 class="font-bold text-accent mb-4 underline">Ejemplo: Pago de Consulta</h4>
+                    <div class="text-xs space-y-4">
+                        <p><span class="text-blue-400 font-bold">Forward:</span> Selecciona médico -> Elige hora -> Paga con Tarjeta -> Recibe Link de Zoom.</p>
+                        <hr class="opacity-10">
+                        <p><span class="text-orange-400 font-bold">Backward (Descubrimientos):</span><br>
+                        1. ¿Si no hay internet al generar el link de Zoom?<br>
+                        2. ¿El médico debe haber confirmado su horario *antes* del pago?<br>
+                        3. ¿Qué pasa si el banco cobra pero el sistema de Avila falla al notificar?</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- LÁMINA 4: DINÁMICA PRODUCT TREE -->
+        <section class="slide-section" data-title="Product Tree">
+            <h2 class="text-5xl font-bold mb-12 border-l-8 border-accent pl-6">03. Dinámica: El Árbol del Producto</h2>
+            <div class="grid lg:grid-cols-2 gap-16 items-center">
+                <div class="space-y-6">
+                    <p class="text-lg">Visualiza la madurez y prioridad de las funcionalidades en una sola imagen. Ideal para alinear a stakeholders no-técnicos.</p>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="glass-card p-4 text-[10px]">
+                            <span class="font-bold text-accent block">RAÍCES (Sistemas)</span> Infraestructura y DB.
+                        </div>
+                        <div class="glass-card p-4 text-[10px]">
+                            <span class="font-bold text-accent block">TRONCO (Core)</span> El valor fundamental del negocio.
+                        </div>
+                        <div class="glass-card p-4 text-[10px]">
+                            <span class="font-bold text-accent block">RAMAS (Features)</span> Nuevas funcionalidades.
+                        </div>
+                        <div class="glass-card p-4 text-[10px]">
+                            <span class="font-bold text-accent block">HOJAS (Mejoras)</span> UX/UI y "nice-to-haves".
+                        </div>
+                    </div>
+                </div>
+                <!-- Ilustración Árbol -->
+                <div class="flex flex-col items-center">
+                    <div class="w-16 h-16 bg-accent/20 rounded-full flex items-center justify-center mb-2"><i class="fa-solid fa-leaf text-accent"></i></div>
+                    <div class="tree-node w-48 text-xs font-bold">HOJAS: Modo Oscuro</div>
+                    <div class="tree-line"></div>
+                    <div class="tree-node w-64 text-xs font-bold bg-white/5">RAMAS: Chat Médico con IA</div>
+                    <div class="tree-line h-10"></div>
+                    <div class="tree-node w-full text-sm font-bold border-accent/60">TRONCO: Telemedicina y Perfil Biométrico</div>
+                    <div class="tree-line h-12 border-dashed border-accent/20"></div>
+                    <div class="w-full h-8 bg-accent/10 rounded-full text-center text-[10px] py-2">RAÍCES: Cloud AWS / Seguridad HIPAA</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- LÁMINA 5: BUY A FEATURE -->
+        <section class="slide-section" data-title="Buy a Feature">
+            <h2 class="text-5xl font-bold mb-12 border-l-8 border-accent pl-6">04. Dinámica: Buy a Feature</h2>
+            <div class="grid lg:grid-cols-2 gap-12">
+                <div class="space-y-6">
+                    <p class="text-lg">Gamificamos el presupuesto. El cliente recibe una "billetera" limitada para comprar lo que realmente importa.</p>
+                    <div class="glass-card p-6 border-dashed border-accent/30">
+                        <h4 class="text-xs font-bold uppercase opacity-50 mb-4 text-center">Billetera del Cliente: $1,000</h4>
+                        <div class="space-y-3">
+                            <div class="flex justify-between items-center text-xs">
+                                <span>Reportes en PDF</span>
+                                <span class="bg-accent text-black px-2 rounded font-bold">$200</span>
+                            </div>
+                            <div class="flex justify-between items-center text-xs">
+                                <span>Login Facial (FaceID)</span>
+                                <span class="bg-accent text-black px-2 rounded font-bold">$600</span>
+                            </div>
+                            <div class="flex justify-between items-center text-xs">
+                                <span>Sincronización Garmin</span>
+                                <span class="bg-accent text-black px-2 rounded font-bold">$400</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="example-box self-center">
+                    <h4 class="font-bold text-accent mb-2">El Aprendizaje:</h4>
+                    <p class="text-sm">Si el cliente tiene $1,000, no puede comprar todo ($1,200).<br><br>
+                    <span class="italic text-white/60">"¿Prefieres biometría o Garmin? Porque no hay presupuesto para ambos en esta ola."</span><br><br>
+                    Esto revela la prioridad estratégica oculta.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- LÁMINA 6: PRIORIZACIÓN MOSCOW -->
+        <section class="slide-section" data-title="MoSCoW">
+            <h2 class="text-5xl font-bold mb-12 border-l-8 border-accent pl-6">05. Priorización: MoSCoW</h2>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-10">
+                <div class="p-6 bg-accent text-black rounded-2xl">
+                    <h3 class="text-xl font-bold">MUST</h3>
+                    <p class="text-[10px] font-bold">Vital. Sin esto no lanzamos.</p>
+                </div>
+                <div class="p-6 bg-blue-400 text-black rounded-2xl">
+                    <h3 class="text-xl font-bold">SHOULD</h3>
+                    <p class="text-[10px] font-bold">Importante. Hay workaround.</p>
+                </div>
+                <div class="p-6 bg-white/10 rounded-2xl border border-white/20">
+                    <h3 class="text-xl font-bold">COULD</h3>
+                    <p class="text-[10px] font-bold">Deseable. Si sobra tiempo.</p>
+                </div>
+                <div class="p-6 bg-red-900/30 rounded-2xl border border-red-500/20">
+                    <h3 class="text-xl font-bold">WON'T</h3>
+                    <p class="text-[10px] font-bold">Fuera del alcance (Ola actual).</p>
+                </div>
+            </div>
+            <div class="example-box">
+                <h4 class="font-bold text-accent mb-2">Ejemplo en HealthSync:</h4>
+                <p class="text-xs"><strong>Must:</strong> Onboarding y Registro de Datos. <br>
+                <strong>Should:</strong> Recordatorios de agua (Push). <br>
+                <strong>Could:</strong> Compartir logros en Instagram. <br>
+                <strong>Won't:</strong> Telemedicina veterinaria.</p>
+            </div>
+        </section>
+
+        <!-- LÁMINA 7: PRIORIZACIÓN RICE -->
+        <section class="slide-section" data-title="RICE Score">
+            <h2 class="text-5xl font-bold mb-12 border-l-8 border-accent pl-6">06. Priorización Científica: RICE</h2>
+            <div class="flex flex-col items-center mb-10">
+                <div class="p-8 bg-black/40 border border-accent rounded-3xl text-4xl font-bold tracking-tighter">
+                    (Reach × Impact × Confidence) / Effort
+                </div>
+            </div>
+            <div class="grid md:grid-cols-2 gap-8">
+                <div class="table-layout text-[10px]">
+                    <table>
+                        <thead>
+                            <tr><th>Feature</th><th>R</th><th>I</th><th>C</th><th>E</th><th>SCORE</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>Rediseño de Perfil</td><td>10k</td><td>1.5</td><td>80%</td><td>1</td><td class="text-accent font-bold">12,000</td></tr>
+                            <tr><td>Chat de Soporte</td><td>500</td><td>3</td><td>50%</td><td>3</td><td>250</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="example-box">
+                    <h4 class="font-bold text-accent mb-2">Consejo PMO:</h4>
+                    <p class="text-xs">Usa RICE para objetivizar las peleas entre el CEO y el equipo de producto. Los números no tienen sentimientos.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- LÁMINA 8: MODELO KANO -->
+        <section class="slide-section" data-title="Modelo Kano">
+            <h2 class="text-5xl font-bold mb-12 border-l-8 border-accent pl-6">07. Modelo Kano: Satisfacción</h2>
+            <div class="grid lg:grid-cols-2 gap-12 items-center">
+                <div class="space-y-4">
+                    <p class="text-sm">Clasifica los requerimientos según cómo afectan la emoción del usuario.</p>
+                    <ul class="text-xs space-y-4">
+                        <li class="flex items-center gap-4"><i class="fa-solid fa-check-double text-blue-400"></i> <strong>Básicas:</strong> El "desde". Si faltan, el usuario odia la app (ej: Recuperar contraseña).</li>
+                        <li class="flex items-center gap-4"><i class="fa-solid fa-bolt text-accent"></i> <strong>Performance:</strong> Más es mejor (ej: Que la app cargue en 1 seg vs 5 seg).</li>
+                        <li class="flex items-center gap-4"><i class="fa-solid fa-star text-pink-400"></i> <strong>Delighters:</strong> El factor sorpresa que nadie pidió pero todos aman (ej: Regalo sorpresa al primer registro).</li>
+                    </ul>
+                </div>
+                <div class="relative h-64 bg-white/5 rounded-3xl border border-white/10 flex items-center justify-center overflow-hidden">
+                   <div class="absolute w-full h-[2px] bg-white/10"></div>
+                   <div class="absolute h-full w-[2px] bg-white/10"></div>
+                   <p class="text-[10px] text-accent font-bold italic rotate-[-15deg] absolute top-10">CURVA DELIGHTERS (WOW!)</p>
+                   <p class="text-[10px] text-white/20 font-bold italic absolute bottom-10">BÁSICAS (MINIMO)</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- LÁMINA 9: INTERESADOS (STAKEHOLDERS) -->
+        <section class="slide-section" data-title="Stakeholders">
+            <h2 class="text-5xl font-bold mb-12 border-l-8 border-accent pl-6">08. Gestión de Interesados</h2>
+            <div class="grid md:grid-cols-2 gap-12">
+                <div class="space-y-6">
+                    <h3 class="text-2xl font-bold italic">La Matriz Poder/Interés</h3>
+                    <div class="grid grid-cols-2 gap-2 text-center text-[10px] font-bold">
+                        <div class="p-6 border border-accent/40 rounded-xl">LATENTES<br>(Mantener Satisfechos)</div>
+                        <div class="p-6 bg-accent text-black rounded-xl shadow-[0_0_20px_rgba(222,255,154,0.3)]">PROMOTORES<br>(Administrar de Cerca)</div>
+                        <div class="p-6 border border-white/10 rounded-xl opacity-40">APÁTICOS<br>(Monitorear)</div>
+                        <div class="p-6 border border-white/40 rounded-xl">DEFENSORES<br>(Mantener Informados)</div>
+                    </div>
+                </div>
+                <div class="example-box flex flex-col justify-center">
+                    <h4 class="font-bold text-accent mb-2">Ejemplo en Avila Tek:</h4>
+                    <p class="text-sm"><strong>Promotor:</strong> El Dueño del Producto (Cliente) - Reunión Semanal. <br>
+                    <strong>Defensor:</strong> El usuario final - Encuestas y Feedback. <br>
+                    <strong>Latente:</strong> El CTO del cliente - Reporte mensual de seguridad.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- LÁMINA 10: HISTORIAS DE USUARIO INVEST -->
+        <section class="slide-section" data-title="HUs INVEST">
+            <h2 class="text-5xl font-bold mb-12 border-l-8 border-accent pl-6">09. Ingeniería de Requerimientos: INVEST</h2>
+            <div class="grid lg:grid-cols-2 gap-12">
+                <div class="grid grid-cols-2 gap-4 text-[10px] font-bold uppercase">
+                    <div class="p-4 glass-card border-accent/20">I - Independent</div>
+                    <div class="p-4 glass-card border-accent/20">N - Negotiable</div>
+                    <div class="p-4 glass-card border-accent/20">V - Valuable</div>
+                    <div class="p-4 glass-card border-accent/20">E - Estimable</div>
+                    <div class="p-4 glass-card border-accent/20">S - Small</div>
+                    <div class="p-4 glass-card border-accent/20">T - Testable</div>
+                </div>
+                <div class="example-box">
+                    <h4 class="font-bold text-accent mb-4 underline text-xs">Comparativa:</h4>
+                    <div class="space-y-4 text-[10px]">
+                        <p class="text-red-400"><strong>MAL:</strong> "El sistema debe permitir subir fotos." (Vago, no testeable).</p>
+                        <hr class="opacity-10">
+                        <p class="text-green-400"><strong>BIEN:</strong> "Como paciente, quiero subir mi reporte médico en PDF < 5MB para que mi doctor lo revise antes de la cita."</p>
+                        <p class="italic text-white/40">Criterio de Aceptación: Validar formato, validar peso, subir a S3, notificar a doctor.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- LÁMINA 11: VALIDACIÓN DVF -->
+        <section class="slide-section" data-title="Validación DVF">
+            <h2 class="text-5xl font-bold mb-12 border-l-8 border-accent pl-6">10. Validación: Matriz DVF</h2>
+            <p class="mb-10 opacity-70">Antes de que un requerimiento entre al backlog, la Tríada debe firmar la matriz DVF.</p>
+            <div class="grid md:grid-cols-3 gap-6 text-center">
+                <div class="glass-card p-6 border-l-4 border-pink-400">
+                    <i class="fa-solid fa-heart text-pink-400 text-3xl mb-4"></i>
+                    <h4 class="font-bold mb-2">Deseabilidad</h4>
+                    <p class="text-[10px] opacity-60">Responsable: <span class="font-bold">Diseñador</span>. ¿El usuario lo quiere?</p>
+                </div>
+                <div class="glass-card p-6 border-l-4 border-blue-400">
+                    <i class="fa-solid fa-sack-dollar text-blue-400 text-3xl mb-4"></i>
+                    <h4 class="font-bold mb-2">Viabilidad</h4>
+                    <p class="text-[10px] opacity-60">Responsable: <span class="font-bold">PM</span>. ¿Alinea con el ROI?</p>
+                </div>
+                <div class="glass-card p-6 border-l-4 border-accent">
+                    <i class="fa-solid fa-gear text-accent text-3xl mb-4"></i>
+                    <h4 class="font-bold mb-2">Factibilidad</h4>
+                    <p class="text-[10px] opacity-60">Responsable: <span class="font-bold">Tech Lead</span>. ¿Podemos construirlo?</p>
+                </div>
+            </div>
+            <div class="mt-10 p-6 bg-accent/5 border border-accent/20 rounded-2xl text-center font-bold text-sm italic">
+                "Si falla un círculo, falla la innovación. Se requiere consenso total."
+            </div>
+        </section>
+
+        <!-- LÁMINA 12: EL RESULTADO - WEP -->
+        <section class="slide-section" data-title="Resultado Final">
+            <div class="flex flex-col items-center justify-center text-center space-y-10">
+                <h2 class="text-6xl font-bold accent-text tracking-tighter italic underline decoration-8 underline-offset-8">THE OUTPUT</h2>
+                <div class="glass-card p-10 max-w-2xl w-full">
+                    <h3 class="text-2xl font-bold mb-6 italic underline">Wave Execution Package (WEP)</h3>
+                    <ul class="text-left space-y-4 text-sm">
+                        <li class="flex items-center gap-4"><i class="fa-regular fa-folder-open text-accent"></i> Scope Fence Firmado (Alcance Cerrado).</li>
+                        <li class="flex items-center gap-4"><i class="fa-solid fa-list-check text-accent"></i> Backlog de 2 Sprints (Refinado INVEST).</li>
+                        <li class="flex items-center gap-4"><i class="fa-solid fa-shield-halved text-accent"></i> Registro de Edge Cases (Errores).</li>
+                        <li class="flex items-center gap-4"><i class="fa-solid fa-diagram-project text-accent"></i> Arquitectura y Modelo de Datos (DBML).</li>
+                    </ul>
+                </div>
+                <p class="text-white/40 italic">Avila Tek | Software Factory Engineering Standards | 2024</p>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Controles -->
+    <div class="fixed bottom-8 left-1/2 -translate-x-1/2 flex items-center gap-8 bg-black/60 backdrop-blur-xl border border-white/10 px-8 py-3 rounded-full shadow-2xl z-50">
+        <button onclick="prevSlide()" class="hover:text-accent transition"><i class="fa-solid fa-chevron-left text-xl"></i></button>
+        <div id="nav-dots-container" class="flex gap-3"></div>
+        <button onclick="nextSlide()" class="hover:text-accent transition"><i class="fa-solid fa-chevron-right text-xl"></i></button>
+    </div>
+
+    <script>
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide-section');
+        const dotsContainer = document.getElementById('nav-dots-container');
+        const slideNum = document.getElementById('slide-num');
+
+        // Inicializar dots
+        slides.forEach((_, i) => {
+            const dot = document.createElement('div');
+            dot.className = `nav-dot ${i === 0 ? 'active' : ''}`;
+            dot.onclick = () => goToSlide(i);
+            dotsContainer.appendChild(dot);
+        });
+        const dots = document.querySelectorAll('.nav-dot');
+
+        function updateUI() {
+            slides.forEach((s, i) => {
+                s.classList.toggle('active', i === currentSlide);
+                dots[i].classList.toggle('active', i === currentSlide);
+            });
+            slideNum.innerText = `LÁMINA ${currentSlide + 1} / ${slides.length} - ${slides[currentSlide].dataset.title}`;
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function nextSlide() { if (currentSlide < slides.length - 1) { currentSlide++; updateUI(); } }
+        function prevSlide() { if (currentSlide > 0) { currentSlide--; updateUI(); } }
+        function goToSlide(index) { currentSlide = index; updateUI(); }
+
+        // Navegación teclado
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight' || e.key === 'Space') nextSlide();
+            if (e.key === 'ArrowLeft') prevSlide();
+        });
+    </script>
+
+</body>
+</html>

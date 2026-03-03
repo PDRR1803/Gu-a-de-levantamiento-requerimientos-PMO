@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Master Guide: Requerimientos PMO Avila Tek</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Urbanist:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        lime: '#93DA33',
+                        forest: '#005C30',
+                        dark: '#050505',
+                        glass: 'rgba(0, 92, 48, 0.15)',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { font-family: 'Urbanist', sans-serif; background-color: #050505; color: #f8fafc; scroll-behavior: smooth; overflow-x: hidden; }
+        .slide-container { display: none; min-height: 100vh; padding: 100px 60px; animation: slideIn 0.5s ease-out; }
+        .slide-container.active { display: flex; flex-direction: column; justify-content: center; }
+        @keyframes slideIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .glass-card { background: rgba(0, 92, 48, 0.1); backdrop-filter: blur(15px); border: 1px solid rgba(147, 218, 51, 0.2); border-radius: 24px; }
+        .nav-dot { width: 10px; height: 10px; border-radius: 50%; background: rgba(255, 255, 255, 0.2); cursor: pointer; transition: 0.3s; }
+        .nav-dot.active { background: #93DA33; transform: scale(1.4); box-shadow: 0 0 15px #93DA33; }
+        .example-box { border-left: 4px solid #93DA33; background: rgba(147, 218, 51, 0.05); padding: 20px; border-radius: 0 16px 16px 0; }
+        .ai-terminal { background: #000; border: 1px solid #93DA33; font-family: 'Courier New', monospace; color: #93DA33; padding: 20px; border-radius: 12px; }
+        .loader { border: 2px solid #005C30; border-top: 2px solid #93DA33; border-radius: 50%; width: 20px; height: 20px; animation: spin 1s linear infinite; display: inline-block; }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        
+        /* Iterative Cycle Styles */
+        .cycle-node { position: absolute; transform: translate(-50%, -50%); transition: 0.3s; }
+        .cycle-node:hover { transform: translate(-50%, -50%) scale(1.1); color: #93DA33; }
+
+        /* Tree Styles */
+        .tree-node { border: 2px solid #93DA33; padding: 8px; border-radius: 8px; font-size: 11px; background: rgba(0, 92, 48, 0.4); text-align: center; }
+        .tree-line { width: 2px; background: #93DA33; margin: 0 auto; }
+    </style>
+</head>
+<body>
+
+    <!-- Navegación Fija -->
+    <nav class="fixed top-0 left-0 w-full z-50 bg-black/80 backdrop-blur-lg border-b border-white/10 px-8 py-4 flex justify-between items-center">
+        <div class="flex items-center gap-2">
+            <div class="w-10 h-10 bg-lime rounded flex items-center justify-center text-forest font-bold text-xl shadow-[0_0_15px_rgba(147,218,51,0.3)]">A</div>
+            <span class="font-bold tracking-tighter text-white text-xl uppercase">PMO <span class="text-lime">Master Guide</span></span>
+        </div>
+        <div id="nav-dots-container" class="flex gap-3"></div>
+        <div class="text-[10px] uppercase tracking-[0.3em] opacity-40 text-white" id="slide-num">LÁMINA 1 / 18</div>
+    </nav>
+
+    <main class="max-w-7xl mx-auto mb-20">
+
+        <!-- LÁMINA 1: PORTADA -->
+        <section class="slide-container active" data-title="Portada">
+            <div class="text-center space-y-6">
+                <h1 class="text-7xl md:text-9xl font-bold tracking-tighter italic text-white leading-none">MASTER <span class="text-lime underline underline-offset-8">GUIDE</span></h1>
+                <h2 class="text-2xl md:text-3xl font-light text-white/60">Levantamiento, Refinamiento y Validación de Requerimientos</h2>
+                <div class="h-1 w-24 bg-lime mx-auto my-8 shadow-[0_0_10px_#93DA33]"></div>
+                <p class="text-sm uppercase tracking-[0.5em] font-bold text-lime opacity-80 italic">Avila Tek Standards 2025</p>
+                <div class="flex justify-center gap-12 pt-10 opacity-60 text-sm font-bold uppercase tracking-[0.4em] text-white">
+                    <span>Negocio</span> <span class="text-lime">•</span> <span>Diseño</span> <span class="text-lime">•</span> <span>Tecnología</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- LÁMINA 2: DATO DE IMPACTO -->
+        <section class="slide-container" data-title="Impacto">
+            <h2 class="text-5xl font-bold mb-12 border-l-8 border-lime pl-6 text-white tracking-tighter uppercase">Identificación del Fallo</h2>
+            <div class="grid lg:grid-cols-2 gap-12 items-center">
+                <div class="space-y-8 text-center lg:text-left">
+                    <div class="text-9xl font-bold text-lime leading-none">70%</div>
+                    <p class="text-2xl leading-relaxed text-white/80 italic">"La mayoría de los fracasos nacen de una recolección deficiente de requerimientos."</p>
+                </div>
+                <div class="glass-card p-10 space-y-6">
+                    <div class="example-box">
+                        <h4 class="font-bold text-lime mb-2 uppercase text-xs">Costo de la Ambigüedad:</h4>
+                        <p class="text-sm italic opacity-80 leading-relaxed">
+                            En Avila Tek, un error en la fase inicial cuesta horas de PM. El mismo error en producción cuesta semanas de desarrollo, QA y reputación del cliente.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- LÁMINA 3: ROLLING WAVE PLANNING -->
+        <section class="slide-container" data-title="Marco">
+            <h2 class="text-5xl font-bold mb-12 border-l-8 border-lime pl-6 text-white tracking-tighter uppercase">Marco: Rolling Wave Planning</h2>
+            <div class="grid lg:grid-cols-2 gap-12">
+                <div class="space-y-6 text-lg opacity-80 leading-relaxed">
+                    <p>Navegamos la incertidumbre con precisión milimétrica en lo cercano y visión estratégica en lo lejano.</p>
+                    <div class="space-y-4">
+                        <div class="p-4 bg-lime/10 border-l-4 border-lime rounded shadow-[0_0_20px_rgba(147,218,51,0.1)]">
+                            <span class="font-bold text-lime text-xs block uppercase">Olas de Compromiso (H1)</span>
+                            <p class="text-sm">Próximas 4 semanas. Requerimientos <span class="font-bold italic text-lime">KK (Known Knowns)</span>. Listos para Sprint.</p>
+                        </div>
+                        <div class="p-4 bg-white/5 border-l-4 border-white/20 rounded opacity-60">
+                            <span class="font-bold text-white text-xs block uppercase">Olas de Anticipación (H2/H3)</span>
+                            <p class="text-sm">Horizonte 3-6 meses. <span class="font-bold italic">KU / UU</span>. Épicas e Hitos estratégicos.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex items-center justify-center">
+                    
+                </div>
+            </div>
+        </section>
+
+        <!-- LÁMINA 4: CICLO DE DESCUBRIMIENTO ITERATIVO -->
+        <section class="slide-container" data-title="Ciclo Iterativo">
+            <h2 class="text-5xl font-bold mb-16 text-center text-white tracking-tighter uppercase">Ciclo de Descubrimiento de Requerimientos</h2>
+            <div class="flex justify-center items-center h-[400px]">
+                <div class="relative w-80 h-80 border-4 border-dashed border-lime/30 rounded-full flex items-center justify-center animate-spin-slow">
+                    <!-- Iconos de Ciclo -->
+                    <div class="cycle-node" style="top: 0; left: 50%;"><div class="glass-card p-4 w-32 text-[9px] font-bold text-center">1. OBTENER<br><i class="fa-solid fa-comments mt-2 text-lime text-xl"></i></div></div>
+                    <div class="cycle-node" style="top: 50%; left: 100%;"><div class="glass-card p-4 w-32 text-[9px] font-bold text-center">2. ANALIZAR<br><i class="fa-solid fa-filter mt-2 text-lime text-xl"></i></div></div>
+                    <div class="cycle-node" style="top: 100%; left: 50%;"><div class="glass-card p-4 w-32 text-[9px] font-bold text-center">3. ESPECIFICAR<br><i class="fa-solid fa-pen-nib mt-2 text-lime text-xl"></i></div></div>
+                    <div class="cycle-node" style="top: 50%; left: 0%;"><div class="glass-card p-4 w-32 text-[9px] font-bold text-center">4. VALIDAR<br><i class="fa-solid fa-stamp mt-2 text-lime text-xl"></i></div></div>
+                </div>
+                <div class="absolute text-center">
+                    <p class="text-[10px] uppercase tracking-widest text-lime font-bold">Iteración<br>Continua</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- LÁMINA 5: FASE PREPARACIÓN - STAKEHOLDERS -->
+        <section class="slide-container" data-title="Stakeholders">
+            <h2 class="text-5xl font-bold mb-12 border-l-8 border-lime pl-6 text-white tracking-tighter uppercase">Fase 1: Preparación (Stakeholders)</h2>
+            <div class="grid lg:grid-cols-2 gap-12 items-center">
+                <div class="space-y-6">
+                    <h3 class="text-2xl font-bold italic text-lime">Matriz de Poder e Influencia</h3>
+                    <div class="grid grid-cols-2 gap-2 text-[11px] font-bold text-center uppercase">
+                        <div class="p-6 border border-white/10 rounded-2xl opacity-40">Latentes<br><span class="font-light italic">Mantener Satisfechos</span></div>
+                        <div class="p-10 bg-lime text-forest rounded-2xl shadow-[0_0_30px_rgba(147,218,51,0.2)]">Promotores<br><span class="font-light underline underline-offset-4">Gestionar de Cerca</span></div>
+                        <div class="p-6 border border-white/10 rounded-2xl opacity-40">Apáticos<br><span class="font-light italic">Monitorear</span></div>
+                        <div class="p-6 border-2 border-lime/40 rounded-2xl text-lime italic">Defensores<br><span class="font-light text-white">Mantener Informados</span></div>
+                    </div>
+                </div>
+                <div class="example-box">
+                    <h4 class="font-bold text-white mb-2 uppercase text-[10px]">Ejemplo:</h4>
+                    <p class="text-sm opacity-80 leading-relaxed font-light">
+                        El <span class="text-lime font-bold italic">Dueño del Producto</span> es un Promotor: su ausencia en una sesión de priorización invalida el resultado. Los <span class="font-bold">Usuarios Finales</span> son Defensores: validan la usabilidad pero no firman el alcance.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- LÁMINA 6: OBTENCIÓN - MINDSET CIRCULO DORADO -->
+        <section class="slide-container" data-title="Obtención Mindset">
+            <h2 class="text-5xl font-bold mb-12 border-l-8 border-forest pl-6 text-white tracking-tighter uppercase">Fase 2: Obtención (Mindset)</h2>
+            <div class="grid lg:grid-cols-2 gap-12 items-center">
+                <div class="space-y-8">
+                    <p class="text-xl leading-relaxed opacity-80">Nos enfocamos en el <span class="text-lime font-bold italic underline">Resultado de Negocio</span>, no en los botones.</p>
+                    <div class="space-y-6">
+                        <div class="flex gap-4 items-center"><div class="w-12 h-12 bg-forest flex items-center justify-center rounded-full text-lime font-bold">1</div><p class="text-sm"><strong>POR QUÉ:</strong> ¿Por qué el cliente necesita esto hoy? (El problema raíz).</p></div>
+                        <div class="flex gap-4 items-center"><div class="w-12 h-12 bg-forest flex items-center justify-center rounded-full text-lime font-bold">2</div><p class="text-sm"><strong>CÓMO:</strong> ¿Cómo lo vamos a resolver de forma única? (La ventaja competitiva).</p></div>
+                        <div class="flex gap-4 items-center opacity-40"><div class="w-12 h-12 bg-white/10 flex items-center justify-center rounded-full text-white font-bold">3</div><p class="text-sm"><strong>QUÉ:</strong> El resultado tangible. (La App/Web es solo el medio).</p></div>
+                    </div>
+                </div>
+                <div class="flex justify-center p-10 border-2 border-lime/20 rounded-full border-dashed">
+                    
+                </div>
+            </div>
+        </section>
+
+        <!-- LÁMINA 6.1: TECNICA FORWARD-BACKWARD -->
+        <section class="slide-container" data-title="FB Pass">
+            <h2 class="text-5xl font-bold mb-12 border-l-8 border-lime pl-6 text-white tracking-tighter uppercase">Técnica: Forward-Backward Pass</h2>
+            <div class="grid lg:grid-cols-2 gap-12 items-center">
+                <div class="space-y-6">
+                    <p class="text-lg italic opacity-70">Auditoría lógica de procesos para detectar brechas antes del diseño.</p>
+                    <div class="p-6 bg-forest/30 border border-lime rounded-2xl text-xs space-y-4 shadow-inner">
+                        <p><span class="text-lime font-bold underline">FORWARD:</span> "Hago click -> Ingreso datos -> Pago -> Confirmo".</p>
+                        <p><span class="text-red-400 font-bold underline decoration-white">BACKWARD (El reto):</span> "¿Qué pasa si el banco cobra pero el API cae? ¿Tiene stock el almacén al momento de confirmar?"</p>
+                    </div>
+                </div>
+                <div class="flex flex-col items-center">
+                    
+                    <p class="text-[10px] mt-6 italic opacity-50 uppercase tracking-widest text-center">Detecta pre-requisitos olvidados y casos borde.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- LÁMINA 6.2: BUY A FEATURE -->
+        <section class="slide-container" data-title="Buy a Feature">
+            <h2 class="text-5xl font-bold mb-12 border-l-8 border-forest pl-6 text-white tracking-tighter uppercase">Técnica: Buy a Feature</h2>
+            <div class="grid lg:grid-cols-2 gap-12 items-center">
+                <div class="space-y-8">
+                    <p class="text-lg opacity-80 italic">Gamificación de la escasez: El cliente debe elegir qué "comprar" con fondos limitados.</p>
+                    <div class="p-8 glass-card border-dashed border-lime/30 text-center space-y-6">
+                        <h4 class="text-xs font-bold uppercase opacity-50 tracking-[0.3em]">Wallet del Cliente: $1,000</h4>
+                        <div class="space-y-4">
+                            <div class="flex justify-between items-center text-xs font-bold border-b border-white/5 pb-2"><span>Login Facial</span> <span class="bg-lime text-forest px-3 py-1 rounded">$600</span></div>
+                            <div class="flex justify-between items-center text-xs font-bold border-b border-white/5 pb-2"><span>Exportar Excel</span> <span class="bg-lime text-forest px-3 py-1 rounded">$200</span></div>
+                            <div class="flex justify-between items-center text-xs font-bold border-b border-white/5 pb-2"><span>Chat con IA</span> <span class="bg-lime text-forest px-3 py-1 rounded">$500</span></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex flex-col items-center gap-6">
+                    <i class="fa-solid fa-cart-arrow-down text-9xl text-lime/10"></i>
+                    <p class="example-box text-xs italic">"Si el cliente solo tiene $1000, no puede comprar todo. Esto revela qué es realmente crítico para el MVP."</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- LÁMINA 7: PRODUCT TREE -->
+        <section class="slide-container" data-title="Product Tree">
+            <h2 class="text-5xl font-bold mb-12 border-l-8 border-lime pl-6 text-white tracking-tighter uppercase">Técnica: El Árbol del Producto</h2>
+            <div class="grid lg:grid-cols-2 gap-12 items-center">
+                <div class="example-box text-xs space-y-4 font-light leading-relaxed">
+                    <p><span class="text-lime font-bold uppercase underline">Raíces:</span> El soporte. AWS, Bases de Datos, Seguridad.</p>
+                    <p><span class="text-lime font-bold uppercase underline">Tronco:</span> El Core. Lo que el cliente pagó por construir (Checkout, Perfil).</p>
+                    <p><span class="text-lime font-bold uppercase underline">Ramas:</span> Crecimiento. Features futuras (Filtros, Compartir).</p>
+                    <p><span class="text-lime font-bold uppercase underline italic underline-offset-4">Hojas:</span> UI Polish. Estética y detalles finales.</p>
+                </div>
+                <div class="flex flex-col items-center">
+                    <!-- Visual Tree Hierarchy -->
+                    <div class="flex flex-col items-center gap-1 w-full max-w-xs scale-125">
+                        <div class="tree-node w-32 border-green-500 shadow-[0_0_10px_#93DA33]">Hojas: Dark Mode</div>
+                        <div class="tree-line h-4"></div>
+                        <div class="flex gap-4">
+                            <div class="tree-node">Ramas: Cupones</div>
+                            <div class="tree-node">Ramas: Social</div>
+                        </div>
+                        <div class="tree-line h-10"></div>
+                        <div class="tree-node font-bold bg-forest text-white w-full italic tracking-tighter border-lime">TRONCO: MVP BILLETERA</div>
+                        <div class="tree-line h-12 border-dashed border-lime/50"></div>
+                        <div class="tree-node border-orange-500 w-full opacity-60 text-[9px] uppercase italic">Raíces: API Binance / AWS</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- LÁMINA 8: FASE ANÁLISIS GENERAL -->
+        <section class="slide-container" data-title="Fase Análisis">
+            <h2 class="text-5xl font-bold mb-12 border-l-8 border-forest pl-6 text-white tracking-tighter uppercase">Fase 3: Análisis Estratégico</h2>
+            <div class="grid lg:grid-cols-2 gap-12 items-center">
+                <div class="space-y-8">
+                    <p class="text-xl leading-relaxed text-white/80 italic font-light">"Separamos el ruido de la señal. Convertimos deseos en un backlog <span class="text-lime font-bold underline italic decoration-white underline-offset-4">ejecutable</span>."</p>
+                    <div class="glass-card p-10 space-y-6 shadow-2xl border-l-8 border-lime">
+                        <h4 class="font-bold uppercase text-xs tracking-widest text-lime italic">Esperables de esta fase:</h4>
+                        <ul class="text-sm space-y-4 opacity-70 list-disc pl-5">
+                            <li>Identificar dependencias técnicas ocultas.</li>
+                            <li>Definir la arquitectura de datos preliminar (ERD).</li>
+                            <li>Establecer pesos cuantitativos de prioridad.</li>
+                            <li>Confirmar el alineamiento con los objetivos del cliente.</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="flex justify-center p-10 bg-forest/20 rounded-full">
+                    <i class="fa-solid fa-microscope text-9xl text-lime/10 animate-pulse"></i>
+                </div>
+            </div>
+        </section>
+
+        <!-- LÁMINA 8.1: RICE SCORE DETALLADO -->
+        <section class="slide-container" data-title="Metodo RICE">
+            <h2 class="text-5xl font-bold mb-12 border-l-8 border-lime pl-6 text-white tracking-tighter uppercase">Priorización: Score RICE</h2>
+            <div class="grid lg:grid-cols-2 gap-12">
+                <div class="space-y-10">
+                    <div class="text-4xl font-bold text-center py-10 bg-forest/30 text-lime rounded-3xl border border-lime/30 shadow-[0_0_40px_rgba(147,218,51,0.1)]">
+                        (R × I × C) / E = Score
+                    </div>
+                    <div class="grid grid-cols-4 gap-2 text-center text-[8px] font-bold uppercase tracking-tighter opacity-70">
+                        <div>Reach<br>Alcance</div><div>Impact<br>Impacto</div><div>Confidence<br>Certeza</div><div>Effort<br>Costo</div>
+                    </div>
+                </div>
+                <div class="example-box">
+                    <h4 class="font-bold text-white mb-6 uppercase text-xs italic underline decoration-lime">Ejemplo: Login con Huella</h4>
+                    <p class="text-[10px] italic leading-loose">
+                        - <span class="text-lime font-bold">R:</span> 10,000 (Todos los usuarios mobile).<br>
+                        - <span class="text-lime font-bold">I:</span> 2.0 (Mejora drástica la UX).<br>
+                        - <span class="text-lime font-bold">C:</span> 80% (Ya lo hemos implementado antes).<br>
+                        - <span class="text-lime font-bold">E:</span> 1 mes/persona.<br>
+                        <hr class="my-4 border-white/10">
+                        <span class="text-lime font-bold text-2xl tracking-tighter">Score: 16,000</span>
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- LÁMINA 8.2: MoSCoW DETALLADO -->
+        <section class="slide-container" data-title="Metodo MoSCoW">
+            <h2 class="text-5xl font-bold mb-12 border-l-8 border-forest pl-6 text-white tracking-tighter uppercase">Priorización: Método MoSCoW</h2>
+            <div class="grid lg:grid-cols-4 gap-4 mb-10">
+                <div class="p-8 bg-lime text-forest rounded-2xl text-center shadow-xl border border-white/20">
+                    <h4 class="font-bold text-3xl mb-2 italic">MUST</h4>
+                    <p class="text-[10px] font-bold opacity-80 uppercase">No negociable.<br>Esencial para V1.</p>
+                </div>
+                <div class="p-8 border-2 border-lime rounded-2xl text-center shadow-inner">
+                    <h4 class="font-bold text-3xl mb-2 text-lime">SHOULD</h4>
+                    <p class="text-[10px] font-bold opacity-60 uppercase tracking-widest">Importante.<br>Hay workarounds.</p>
+                </div>
+                <div class="p-8 border border-white/20 rounded-2xl text-center opacity-60">
+                    <h4 class="font-bold text-3xl mb-2 text-white/50 italic underline">COULD</h4>
+                    <p class="text-[10px] font-bold opacity-40 uppercase">Nice-to-have.<br>Si sobra tiempo.</p>
+                </div>
+                <div class="p-8 bg-white/5 border border-white/10 rounded-2xl text-center opacity-30">
+                    <h4 class="font-bold text-3xl mb-2">WON'T</h4>
+                    <p class="text-[10px] font-bold opacity-30 uppercase">Futuro.<br>Fuera de alcance.</p>
+                </div>
+            </div>
+            <div class="example-box mt-4">
+                <p class="text-xs italic text-center font-bold">"Regla PMO: El total de 'Must Haves' no debe exceder el 60% de la capacidad del equipo."</p>
+            </div>
+        </section>
+
+        <!-- LÁMINA 8.3: KANO MODEL DETALLADO -->
+        <section class="slide-container" data-title="Metodo KANO">
+            <h2 class="text-5xl font-bold mb-12 border-l-8 border-lime pl-6 text-white tracking-tighter uppercase">Priorización: Modelo KANO</h2>
+            <div class="grid lg:grid-cols-2 gap-12 items-center">
+                <div class="glass-card p-8 flex flex-col items-center">
+                    
+                    <p class="text-[9px] mt-4 uppercase opacity-40 font-bold tracking-widest italic text-center">Satisfacción vs Implementación</p>
+                </div>
+                <div class="space-y-6">
+                    <div class="space-y-4">
+                        <div class="p-4 bg-white/5 rounded-xl border border-white/10">
+                            <p class="text-xs"><span class="text-lime font-bold uppercase underline">Básicas:</span> No dan puntos, pero si faltan, el cliente odia la App (ej: Cambiar clave).</p>
+                        </div>
+                        <div class="p-4 bg-white/5 rounded-xl border border-white/10">
+                            <p class="text-xs"><span class="text-white font-bold uppercase underline decoration-lime underline-offset-4 italic">Performance:</span> Satisfacción lineal (ej: Tiempo de carga de la web).</p>
+                        </div>
+                        <div class="p-4 bg-lime/10 rounded-xl border border-lime shadow-[0_0_15px_rgba(147,218,51,0.1)]">
+                            <p class="text-xs"><span class="text-lime font-bold uppercase italic underline shadow-[0_0_10px_#93DA33]">Delighters:</span> El factor Wow inesperado que vende el producto.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- LÁMINA 10: ESPECIFICACIÓN HU GENERAL -->
+        <section class="slide-container" data-title="Especificación HU">
+            <h2 class="text-5xl font-bold mb-12 border-l-8 border-forest pl-6 text-white tracking-tighter uppercase italic">Fase 4: Ingeniería de Historias</h2>
+            <div class="grid lg:grid-cols-2 gap-12 items-center">
+                <div class="space-y-8">
+                    <p class="text-xl leading-relaxed opacity-80 italic">Transformamos la visión en el <span class="text-lime font-bold underline decoration-white underline-offset-8">Manual de Construcción</span> del equipo técnico.</p>
+                    <div class="glass-card p-10 space-y-6 border-l-8 border-forest">
+                        <h4 class="font-bold uppercase text-xs tracking-widest text-lime">Foco de la Especificación:</h4>
+                        <ul class="text-sm space-y-4 opacity-70 list-disc pl-5 font-light">
+                            <li>Anatomía de la HU (Rol, Qué, Para qué).</li>
+                            <li>Definición de Criterios de Aceptación (DoD).</li>
+                            <li>Identificación de dependencias técnicas externas.</li>
+                            <li>Visualización de estados vacíos y manejo de errores.</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="flex justify-center">
+                    <i class="fa-solid fa-file-invoice text-9xl text-lime/10"></i>
+                </div>
+            </div>
+        </section>
+
+        <!-- LÁMINA 10.1: DETALLE HU + INVEST -->
+        <section class="slide-container" data-title="Detalle HU">
+            <h2 class="text-5xl font-bold mb-12 border-l-8 border-lime pl-6 text-white tracking-tighter uppercase">Ingeniería de HUs: DetalleINVEST</h2>
+            <div class="grid lg:grid-cols-2 gap-12">
+                <div class="space-y-6">
+                    <div class="glass-card p-10 border-l-8 border-forest shadow-2xl">
+                        <h3 class="text-xs uppercase font-bold opacity-30 mb-4 tracking-widest text-white italic">Anatomía Estándar</h3>
+                        <p class="text-2xl font-bold text-white mb-4 italic leading-relaxed italic">"Como <span class="text-lime underline decoration-white">[Rol]</span>, quiero <span class="text-lime underline decoration-white">[Acción]</span>, para <span class="text-lime underline decoration-white">[Valor]</span>."</p>
+                    </div>
+                    <div class="example-box italic">
+                        <p class="text-[10px] leading-relaxed"><span class="font-bold uppercase text-lime">Ejemplo Salud App:</span> "Como Paciente, quiero agendar cita desde el dashboard, para reducir el tiempo de espera telefónica."</p>
+                    </div>
+                </div>
+                <div class="glass-card p-8">
+                    <h3 class="font-bold text-sm mb-6 uppercase opacity-50 tracking-widest text-center italic">Checklist INVEST (Calidad)</h3>
+                    <div class="grid grid-cols-2 gap-4 text-[9px] font-bold uppercase italic tracking-tighter">
+                        <div class="p-3 bg-forest/20 border border-lime/30 rounded-xl text-lime flex items-center gap-2"><i class="fa-solid fa-circle-check"></i>Independent</div>
+                        <div class="p-3 bg-forest/20 border border-lime/30 rounded-xl text-lime flex items-center gap-2"><i class="fa-solid fa-circle-check"></i>Negotiable</div>
+                        <div class="p-3 bg-forest/20 border border-lime/30 rounded-xl text-lime flex items-center gap-2"><i class="fa-solid fa-circle-check"></i>Valuable</div>
+                        <div class="p-3 bg-forest/20 border border-lime/30 rounded-xl text-lime flex items-center gap-2"><i class="fa-solid fa-circle-check"></i>Estimable</div>
+                        <div class="p-3 bg-forest/20 border border-lime/30 rounded-xl text-lime flex items-center gap-2"><i class="fa-solid fa-circle-check"></i>Small (Sprint)</div>
+                        <div class="p-3 bg-forest/20 border border-lime/30 rounded-xl text-lime flex items-center gap-2"><i class="fa-solid fa-circle-check"></i>Testable</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- LÁMINA 11: FASE VALIDACIÓN GENERAL -->
+        <section class="slide-container" data-title="Fase Validación">
+            <h2 class="text-5xl font-bold mb-12 border-l-8 border-forest pl-6 text-white tracking-tighter uppercase italic">Fase 5: Validación (El Gate Final)</h2>
+            <div class="grid lg:grid-cols-2 gap-12 items-center">
+                <div class="space-y-8">
+                    <p class="text-xl italic text-white/80 leading-relaxed">El requerimiento solo existe si la <span class="text-lime font-bold underline italic decoration-white">Tríada</span> y el <span class="text-lime font-bold underline italic decoration-white">Cliente</span> firman la viabilidad del mismo.</p>
+                    <div class="glass-card p-10 space-y-6 shadow-2xl border-l-8 border-lime">
+                        <h4 class="font-bold uppercase text-xs tracking-widest text-lime italic mb-4 underline decoration-white">Objetivo de Validación:</h4>
+                        <ul class="text-sm space-y-4 opacity-70 list-disc pl-5 font-light">
+                            <li>Eliminar asunciones subjetivas ("Yo pensé...").</li>
+                            <li>Confirmar factibilidad técnica real antes de iniciar el código.</li>
+                            <li>Cerrar el Scope Fence de la Ola de Planificación (P-Wave).</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="flex justify-center p-12 bg-lime/10 rounded-full">
+                    <i class="fa-solid fa-check-double text-9xl text-lime/40 shadow-2xl"></i>
+                </div>
+            </div>
+        </section>
+
+        <!-- LÁMINA 11.1: SCORECARD DVF DETALLADO -->
+        <section class="slide-container" data-title="Detalle Validación">
+            <h2 class="text-5xl font-bold mb-12 border-l-8 border-lime pl-6 text-white tracking-tighter uppercase italic">Validación: La Matriz DVF</h2>
+            <div class="grid md:grid-cols-3 gap-6 text-center">
+                <div class="glass-card p-10 border-t-8 border-pink-500 hover:-translate-y-2 transition-all shadow-xl">
+                    <i class="fa-solid fa-heart text-pink-500 text-5xl mb-6 shadow-pink-500/20"></i>
+                    <h4 class="font-bold text-sm uppercase mb-2 text-white italic">Deseabilidad</h4>
+                    <p class="text-[10px] opacity-60">Responsable: <span class="font-bold text-white uppercase italic">Designer</span>.<br>¿Resuelve un dolor real? ¿El usuario lo quiere?</p>
+                </div>
+                <div class="glass-card p-10 border-t-8 border-white/20 hover:-translate-y-2 transition-all shadow-[0_0_30px_rgba(255,255,255,0.05)]">
+                    <i class="fa-solid fa-sack-dollar text-white text-5xl mb-6 shadow-white/10"></i>
+                    <h4 class="font-bold text-sm uppercase mb-2 text-white italic">Viabilidad</h4>
+                    <p class="text-[10px] opacity-60">Responsable: <span class="font-bold text-white uppercase italic">PM</span>.<br>¿Es negocio para el cliente? ¿ROI alineado?</p>
+                </div>
+                <div class="glass-card p-10 border-t-8 border-lime hover:-translate-y-2 transition-all">
+                    <i class="fa-solid fa-gear text-lime text-5xl mb-6 shadow-[0_0_20px_#93DA33]"></i>
+                    <h4 class="font-bold text-sm uppercase mb-2 text-white font-bold italic italic underline decoration-lime underline-offset-4">Factibilidad</h4>
+                    <p class="text-[10px] opacity-60">Responsable: <span class="font-bold text-white uppercase italic">Tech Lead</span>.<br>¿Podemos construirlo hoy con nuestro stack?</p>
+                </div>
+            </div>
+            <div class="mt-12 bg-forest p-8 rounded-3xl text-center shadow-2xl border border-lime/30 shadow-inner italic">
+                <h4 class="text-sm font-bold uppercase text-lime mb-2 tracking-widest italic underline decoration-white">Outcome: Wave Execution Package (WEP)</h4>
+                <p class="text-xs text-white/50 italic font-light italic uppercase tracking-tighter">Scope Fence Firmado + Backlog INVEST + Firma de la Tríada.</p>
+            </div>
+        </section>
+
+        <!-- LÁMINA 13: CASO DE USO REAL (END-TO-END) -->
+        <section class="slide-container" data-title="Caso Real">
+            <h2 class="text-5xl font-bold mb-10 border-l-8 border-lime pl-6 text-white tracking-tighter uppercase italic">Caso Real: Épica "Billetera Multimoneda"</h2>
+            <div class="grid lg:grid-cols-2 gap-10 items-center">
+                <div class="example-box">
+                    <h4 class="font-bold mb-6 italic text-sm text-lime uppercase underline underline-offset-8">Trazabilidad de la Épica:</h4>
+                    <ul class="text-[11px] space-y-4 font-light leading-relaxed">
+                        <li><strong>1. Descubrimiento:</strong> <em>Why?</em> El cliente pierde 15% de conversión por no aceptar moneda local.</li>
+                        <li><strong>2. Dinámicas:</strong> <span class="text-lime font-bold italic">Product Tree</span> ubicó el cambio de moneda en "Ramas" (Features). <span class="text-lime font-bold italic">FB Pass</span> detectó que faltaba manejo de tasas dinámicas.</li>
+                        <li><strong>3. Análisis:</strong> <span class="font-bold">Score RICE</span> arrojó 24,000 (Top prioridad). <span class="font-bold">Kano</span> lo clasificó como Performance.</li>
+                        <li><strong>4. Especificación:</strong> Historias INVEST: "Como usuario, quiero ver la tasa en tiempo real...".</li>
+                        <li><strong>5. Validación:</strong> El Tech Lead aprobó integración con API de Binance (Factibilidad: 9/10).</li>
+                    </ul>
+                </div>
+                <div class="glass-card p-10 flex flex-col items-center">
+                    <img src="http://googleusercontent.com/image_collection/image_retrieval/10789296980482574695" alt="Dashboard Prototype" class="rounded-3xl border border-lime/30 shadow-[0_0_40px_rgba(147,218,51,0.2)] max-h-[400px]">
+                    <p class="font-bold text-xl text-center text-white italic tracking-tighter uppercase pt-6">¡Épica Validada y en Desarrollo!</p>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Controles -->
+    <div class="fixed bottom-8 left-1/2 -translate-x-1/2 flex items-center gap-8 bg-black/60 backdrop-blur-xl border border-white/10 px-8 py-3 rounded-full shadow-2xl z-50">
+        <button onclick="prevSlide()" class="hover:text-lime transition text-white"><i class="fa-solid fa-chevron-left text-xl"></i></button>
+        <div id="nav-dots-container" class="flex gap-3"></div>
+        <button onclick="nextSlide()" class="hover:text-lime transition text-white"><i class="fa-solid fa-chevron-right text-xl"></i></button>
+    </div>
+
+    <script>
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide-container');
+        const dotsContainer = document.getElementById('nav-dots-container');
+        const slideNumDisplay = document.getElementById('slide-num');
+
+        slides.forEach((slide, index) => {
+            const dot = document.createElement('div');
+            dot.className = `nav-dot ${index === 0 ? 'active' : ''}`;
+            dot.onclick = () => goToSlide(index);
+            dotsContainer.appendChild(dot);
+        });
+
+        const dots = document.querySelectorAll('.nav-dot');
+
+        function updateUI() {
+            slides.forEach((s, i) => {
+                s.classList.toggle('active', i === currentSlide);
+                dots[i].classList.toggle('active', i === currentSlide);
+            });
+            const title = slides[currentSlide].dataset.title;
+            slideNumDisplay.innerText = `LÁMINA ${currentSlide + 1} / ${slides.length} - ${title}`;
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function nextSlide() { if (currentSlide < slides.length - 1) { currentSlide++; updateUI(); } }
+        function prevSlide() { if (currentSlide > 0) { currentSlide--; updateUI(); } }
+        function goToSlide(index) { currentSlide = index; updateUI(); }
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight' || e.key === 'Space') nextSlide();
+            if (e.key === 'ArrowLeft') prevSlide();
+        });
+    </script>
+</body>
+</html>
